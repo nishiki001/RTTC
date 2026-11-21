@@ -8,25 +8,25 @@
         "biome_source": {
           "type": "rttc:classic",
           "water": {
-            "deep_ocean": "minecraft:deep_ocean",
-            "ocean": "minecraft:ocean",
-            "frozen_ocean": "minecraft:frozen_ocean",
-            "beach": "minecraft:beach",
-            "river": "minecraft:river",
-            "frozen_river": "minecraft:frozen_river",
-            "mushroom_fields": "minecraft:mushroom_fields"
+            "deep_ocean": "rttc:deep_ocean",
+            "ocean": "rttc:ocean",
+            "frozen_ocean": "rttc:frozen_ocean",
+            "beach": "rttc:beach",
+            "river": "rttc:river",
+            "frozen_river": "rttc:frozen_river",
+            "mushroom_fields": "rttc:mushroom_fields"
           },
           "land": {
-            "plains": "minecraft:plains",
-            "forest": "minecraft:forest",
-            "birch_forest": "minecraft:birch_forest",
-            "taiga": "minecraft:taiga",
-            "swamp": "minecraft:swamp",
-            "desert": "minecraft:desert",
-            "jungle": "minecraft:jungle",
-            "windswept_hills": "minecraft:windswept_hills",
-            "snowy_plains": "minecraft:snowy_plains",
-            "snowy_taiga": "minecraft:snowy_taiga"
+            "plains": "rttc:plains",
+            "forest": "rttc:forest",
+            "birch_forest": "rttc:birch_forest",
+            "taiga": "rttc:taiga",
+            "swamp": "rttc:swamp",
+            "desert": "rttc:desert",
+            "jungle": "rttc:jungle",
+            "windswept_hills": "rttc:windswept_hills",
+            "snowy_plains": "rttc:snowy_plains",
+            "snowy_taiga": "rttc:snowy_taiga"
           },
           "thresholds": {
             "deep_ocean": -0.43,
