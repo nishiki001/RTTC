@@ -10,8 +10,8 @@
   "downfall": 0.5,
   "effects": {
     "fog_color": 12638463,
-    "foliage_color": 6858316,
-    "grass_color": 9027423,
+    "foliage_color": 7851096,
+    "grass_color": 10150522,
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
@@ -159,14 +159,7 @@
         "weight": 80
       }
     ],
-    "underground_water_creature": [
-      {
-        "type": "minecraft:glow_squid",
-        "maxCount": 6,
-        "minCount": 4,
-        "weight": 10
-      }
-    ],
+    "underground_water_creature": [],
     "water_ambient": [],
     "water_creature": []
   },
