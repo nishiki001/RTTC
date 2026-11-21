@@ -72,6 +72,14 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
+        // Dev only: opens a saved world and takes scripted screenshots, then quits (client/dev/DevShots).
+        // ./gradlew runDevshots -PshotWorld=<run/saves name> -PshotSpec=<abs path to viewpoint list>
+        devshots {
+            client()
+            programArguments.addAll '--quickPlaySingleplayer', (project.findProperty('shotWorld') ?: 'classic-test')
+            systemProperty 'rttc.devshots', (project.findProperty('shotSpec') ?: '')
+        }
+
         data {
             data()
             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it

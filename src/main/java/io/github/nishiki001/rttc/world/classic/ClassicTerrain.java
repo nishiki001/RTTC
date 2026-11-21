@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.DensityFunctions;
 
 /**
  * {@code rttc:beta_terrain}: Beta-1.7.3-style 3D terrain density, scaled to the −64..320 world.
@@ -13,7 +14,9 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  * <p>Like Beta, it lerps between a "min limit" and a "max limit" 3D noise, picked by a sharp "main" selector noise,
  * then subtracts a vertical falloff around a surface height (stronger below the surface, as in Beta, so overhangs
  * and floating bits stay rare). The surface height comes from the 2D {@code continents} input; the {@code river}
- * input pulls it down to {@code river_floor_y} where {@code |river| < river_width}. The same inputs drive
+ * input pulls it down to {@code river_floor_y} where {@code |river| < river_width}. The optional 2D
+ * {@code relief_scale} input multiplies {@code relief} per column, like Beta's "scale" noise: where it is high the
+ * falloff is weak and the 3D noise wins, giving cliffs, overhangs and floating bits. The same inputs drive
  * {@link ClassicBiomeSource}, so coasts and rivers line up with their biomes.
  *
  * <p>Wrap it in {@code minecraft:interpolated} in JSON: it is then evaluated at 4×8×4 cell corners, Beta's grid.
@@ -23,7 +26,8 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  */
 public record ClassicTerrain(
         NoiseHolder minLimit, NoiseHolder maxLimit, NoiseHolder main,
-        DensityFunction continents, DensityFunction river, Shape shape, boolean surfaceEstimate)
+        DensityFunction continents, DensityFunction river, DensityFunction reliefScale, Shape shape,
+        boolean surfaceEstimate)
         implements DensityFunction {
 
     /** Tunable numbers, all in blocks unless noted. */
@@ -31,7 +35,7 @@ public record ClassicTerrain(
             double baseY, double heightScale, double relief, double belowSurfaceFactor,
             double noiseAmplitude, double selectorSharpness, double xzScale, double yScale,
             double mainXzScale, double mainYScale, double riverWidth, double riverFloorY,
-            int minY, int maxY) {
+            int minY, int maxY, double estimateOffset) {
         static final Codec<Shape> CODEC = RecordCodecBuilder.create(i -> i.group(
                 Codec.DOUBLE.fieldOf("base_y").forGetter(Shape::baseY),
                 Codec.DOUBLE.fieldOf("height_scale").forGetter(Shape::heightScale),
@@ -46,7 +50,8 @@ public record ClassicTerrain(
                 Codec.DOUBLE.fieldOf("river_width").forGetter(Shape::riverWidth),
                 Codec.DOUBLE.fieldOf("river_floor_y").forGetter(Shape::riverFloorY),
                 Codec.INT.fieldOf("min_y").forGetter(Shape::minY),
-                Codec.INT.fieldOf("max_y").forGetter(Shape::maxY)
+                Codec.INT.fieldOf("max_y").forGetter(Shape::maxY),
+                Codec.DOUBLE.optionalFieldOf("estimate_offset", 0.0).forGetter(Shape::estimateOffset)
         ).apply(i, Shape::new));
     }
 
@@ -56,6 +61,8 @@ public record ClassicTerrain(
             NoiseHolder.CODEC.fieldOf("main_noise").forGetter(ClassicTerrain::main),
             DensityFunction.HOLDER_HELPER_CODEC.fieldOf("continents").forGetter(ClassicTerrain::continents),
             DensityFunction.HOLDER_HELPER_CODEC.fieldOf("river").forGetter(ClassicTerrain::river),
+            DensityFunction.HOLDER_HELPER_CODEC.optionalFieldOf("relief_scale", DensityFunctions.constant(1.0))
+                    .forGetter(ClassicTerrain::reliefScale),
             Shape.CODEC.fieldOf("shape").forGetter(ClassicTerrain::shape),
             Codec.BOOL.optionalFieldOf("surface_estimate", false).forGetter(ClassicTerrain::surfaceEstimate)
     ).apply(i, ClassicTerrain::new));
@@ -75,7 +82,11 @@ public record ClassicTerrain(
             return BOUND / 10;
         }
         double surface = surfaceY(ctx);
-        double falloff = (y - surface) / s.relief();
+        if (this.surfaceEstimate) {
+            surface -= s.estimateOffset(); // conservative: deep valleys must still count as "above surface"
+        }
+        double relief = s.relief() * Math.max(0.05, this.reliefScale.compute(ctx));
+        double falloff = (y - surface) / relief;
         if (falloff < 0) {
             falloff *= s.belowSurfaceFactor();
         }
@@ -117,7 +128,8 @@ public record ClassicTerrain(
     public DensityFunction mapAll(Visitor visitor) {
         return visitor.apply(new ClassicTerrain(
                 visitor.visitNoise(this.minLimit), visitor.visitNoise(this.maxLimit), visitor.visitNoise(this.main),
-                this.continents.mapAll(visitor), this.river.mapAll(visitor), this.shape, this.surfaceEstimate));
+                this.continents.mapAll(visitor), this.river.mapAll(visitor), this.reliefScale.mapAll(visitor),
+                this.shape, this.surfaceEstimate));
     }
 
     @Override

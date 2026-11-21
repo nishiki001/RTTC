@@ -1,6 +1,7 @@
 package io.github.nishiki001.rttc.client;
 
 import io.github.nishiki001.rttc.RTTC;
+import io.github.nishiki001.rttc.client.dev.DevShots;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -11,5 +12,6 @@ import net.neoforged.fml.common.Mod;
 public final class RTTCClient {
     public RTTCClient(IEventBus modBus, ModContainer container) {
         modBus.addListener(ForcedProgrammerArt::onAddPackFinders);
+        DevShots.registerIfRequested(); // dev only, inactive without -Drttc.devshots
     }
 }

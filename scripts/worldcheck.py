@@ -114,6 +114,8 @@ def main() -> int:
     structures = collections.Counter()
     heights = []
     ocean_cols = flooded = lava_high = floor_holes = n_chunks = 0
+    cliff_pairs = pairs = overhang_cols = 0
+    agree = disagree = 0
     for region in regions:
         for ch in chunks(region):
             if ch.get("Status") != "minecraft:full":
@@ -123,6 +125,7 @@ def main() -> int:
                 if start.get("id", "INVALID") != "INVALID":
                     structures[sid] += 1
             cols: dict[tuple[int, int], dict[int, str]] = collections.defaultdict(dict)
+            sec_biomes: dict[int, list] = {}
             for sec in ch.get("sections", []):
                 bs = sec.get("block_states")
                 if not bs:
@@ -138,16 +141,34 @@ def main() -> int:
                         cols[(idx & 15, (idx >> 4) & 15)][y] = name
                 bi = sec.get("biomes")
                 if bi:
-                    for b in unpack(bi["palette"], bi.get("data"), 64, 1):
+                    sb = unpack(bi["palette"], bi.get("data"), 64, 1)
+                    sec_biomes[sy] = sb
+                    for b in sb:
                         biomes[b] += 64
-            for col in cols.values():
+            tops = {}
+            for (cx, cz), col in cols.items():
                 solid = [y for y, nm in col.items() if nm not in SOFT]
                 if not solid:
                     continue
                 top = max(solid)
+                tops[(cx, cz)] = top
+                # overhang: solid block above an air gap of >= 2, all above y 70 (few caves up there)
+                ys = sorted(y for y in solid if y >= 70)
+                if any(b - a >= 3 for a, b in zip(ys, ys[1:])):
+                    overhang_cols += 1
                 heights.append(top)
                 is_ocean = col.get(a.sea_level - 1) == "minecraft:water" and top < a.sea_level
                 ocean_cols += is_ocean
+                sb = sec_biomes.get((a.sea_level - 4) >> 4)
+                if sb:
+                    bname = sb[(((a.sea_level - 4) & 15) >> 2) * 16 + (cz >> 2) * 4 + (cx >> 2)]
+                    # rivers and beaches sit at sea level either way, so they are not counted
+                    if "ocean" in bname:
+                        agree += is_ocean
+                        disagree += not is_ocean
+                    elif "river" not in bname and "beach" not in bname:
+                        agree += not is_ocean
+                        disagree += is_ocean
                 if not is_ocean:  # land columns only: seafloor caves are meant to hold sea water
                     for y, nm in col.items():
                         if nm in FLUIDS and y < top - 4:
@@ -158,6 +179,11 @@ def main() -> int:
                 for y in range(-64, -58):
                     if col.get(y) is None:  # air; carver lava at the bottom is fine
                         floor_holes += 1
+            for (cx, cz), t in tops.items():
+                for nx, nz in ((cx + 1, cz), (cx, cz + 1)):
+                    if (nx, nz) in tops:
+                        pairs += 1
+                        cliff_pairs += abs(tops[(nx, nz)] - t) >= 5
 
     heights.sort()
     pct = lambda p: heights[min(len(heights) - 1, int(p / 100 * len(heights)))]
@@ -166,6 +192,10 @@ def main() -> int:
     print(f"ocean columns: {100 * ocean_cols / max(1, len(heights)):.1f}%")
     print(f"under land: water {flooded} (flooded caves; springs/lakes give a few per chunk), lava above y-50 {lava_high}")
     print(f"floor air holes (y -64..-59): {floor_holes}")
+    print(f"cliffs (neighbour step >= 5): {100 * cliff_pairs / max(1, pairs):.2f}%   "
+          f"overhang columns (gap above y70): {100 * overhang_cols / max(1, len(heights)):.2f}%")
+    print(f"biome/terrain agreement (ocean biome = water, land biome = land): "
+          f"{100 * agree / max(1, agree + disagree):.1f}%")
     print("blocks:", ", ".join(f"{k.split(':')[1]}={counts[k]}" for k in CHECK))
     total = sum(biomes.values()) or 1
     print("structure starts:", ", ".join(f"{k}={v}" for k, v in structures.most_common()) or "none")
