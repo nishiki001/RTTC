@@ -24,6 +24,7 @@
   Log: `.gemini-tasks/<name>.log`. gemini-delegate uses it only for more than ~5 independent files;
   `gemini-task.sh` stays the default. Smoke-tested with 3 JSON files (~15 s per worker), build passed, reverted.
 - 2026-11-21: Every commit gemini-delegate makes (single-agent or two-tier path; the scripts never commit
-  themselves) carries `Co-Authored-By: Gemini <gemini@antigravity.invalid>` next to the Claude trailer.
-  The `.invalid` address can't belong to any GitHub account, so GitHub shows "Gemini" without an avatar
-  and never credits a stranger. README states the project is developed with Claude Code and Gemini.
+  themselves) carries `Co-Authored-By: Gemini <176961590+gemini-code-assist[bot]@users.noreply.github.com>`
+  next to the Claude trailer, so GitHub shows the Gemini avatar. That is Google's official Gemini Code Assist
+  app (owner `google`); the `antigravity-agent[bot]` account was rejected because its owner can't be verified.
+  The bot is not literally Antigravity, so README states the project is developed with Claude Code and Gemini.

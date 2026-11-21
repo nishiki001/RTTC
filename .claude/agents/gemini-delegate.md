@@ -27,7 +27,7 @@ model: sonnet
 
    <one or two lines: what changed, which path (single/two-tier)>
 
-   Co-Authored-By: Gemini <gemini@antigravity.invalid>
+   Co-Authored-By: Gemini <176961590+gemini-code-assist[bot]@users.noreply.github.com>
    Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
    EOF
    ```
