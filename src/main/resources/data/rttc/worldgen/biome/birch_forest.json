@@ -70,7 +70,7 @@
     ],
     [
       "minecraft:forest_flowers",
-      "minecraft:trees_birch",
+      "rttc:trees_birch",
       "minecraft:flower_default",
       "minecraft:patch_grass_forest",
       "minecraft:brown_mushroom_normal",

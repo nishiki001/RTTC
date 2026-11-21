@@ -21,7 +21,8 @@ from pathlib import Path
 
 CHECK = ["minecraft:deepslate", "minecraft:tuff", "minecraft:granite", "minecraft:diorite", "minecraft:andesite",
          "minecraft:calcite", "minecraft:amethyst_block", "minecraft:glow_lichen", "minecraft:copper_ore",
-         "minecraft:deepslate_copper_ore", "minecraft:iron_ore", "minecraft:diamond_ore", "minecraft:mossy_cobblestone"]
+         "minecraft:deepslate_copper_ore", "minecraft:iron_ore", "minecraft:diamond_ore", "minecraft:mossy_cobblestone",
+         "minecraft:bee_nest", "minecraft:oak_log", "minecraft:birch_log"]
 AIRS = {"minecraft:air", "minecraft:cave_air", "minecraft:void_air"}
 FLUIDS = {"minecraft:water", "minecraft:lava"}
 TERRAIN_PARTS = ("stone", "dirt", "grass_block", "sand", "gravel", "_ore", "clay", "mycelium", "podzol", "bedrock",

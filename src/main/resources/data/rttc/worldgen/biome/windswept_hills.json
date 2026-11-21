@@ -112,12 +112,6 @@
         "maxCount": 4,
         "minCount": 4,
         "weight": 8
-      },
-      {
-        "type": "minecraft:llama",
-        "maxCount": 6,
-        "minCount": 4,
-        "weight": 5
       }
     ],
     "misc": [],

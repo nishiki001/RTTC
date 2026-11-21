@@ -78,3 +78,8 @@
 - 2026-11-21: Terrain variants A/B/C (Beta ratios / amplified / wild) are compared on a page for Anton. They are
   world-local datapack overrides of `rttc:classic/terrain`, made by scratch scripts. The mod's default terrain is
   unchanged until Anton picks one.
+- 2026-11-21: Classic also drops bees, polar bears, llamas, strays and husks (Anton). Stray weight goes to skeletons
+  and husk weight to zombies, so snowy plains and desert keep normal undead (as in 1.2.5). Bees come from bee nests
+  on vanilla trees, so plains, forest and birch forest use `rttc:trees_plains/trees_birch/trees_birch_and_oak`:
+  vanilla placement, nest-free oak/fancy oak/birch. A recursive reference check, controlled against vanilla's bee
+  trees, finds no beehive reachable from any rttc: biome. Test world: 0 bee nests, trees intact.
