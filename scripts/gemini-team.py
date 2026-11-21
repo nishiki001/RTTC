@@ -133,6 +133,9 @@ def agy_structured(prompt: str, model: str, mode: str, cwd: Path, schema: dict, 
         if res.get("status") == "SUCCESS" and matches(data, schema):
             return data
         raw = {k: v for k, v in res.items() if k != "json_schema"}
+        if res.get("denied_actions"):
+            prompt += ("\n\nIMPORTANT: your previous attempt tried a shell command, which is not available here. "
+                       "Use only file read/list tools, then answer.")
         log.write(f"[{step}] attempt {attempt} gave no structured output: {json.dumps(raw)[:1500]}")
     return None
 
@@ -261,7 +264,8 @@ def main() -> int:
         f"it) into one subtask.\n- Each subtask gets a short, self-contained spec with the exact ids, keys, "
         f"values and conventions the worker needs; workers cannot see each other.\n"
         f"- Use ids like 'lang-en', 'models-blocks' (letters, digits, - or _). At most 12 subtasks.\n"
-        f"- Do not edit anything now.\n\nTASK:\n{spec}")
+        f"- Do not edit anything now. If the task already names every file, plan from the task text; read files "
+        f"only when you need to, with your file-reading/listing tools.\n{RULES}\n\nTASK:\n{spec}")
     plan = agy_structured(plan_prompt, args.lead, "plan", repo, PLAN_SCHEMA, log, "plan")
     if changed_files(repo):
         log.write(f"[plan] ABORT: plan step changed the tree: {changed_files(repo)} (revert by hand)")
