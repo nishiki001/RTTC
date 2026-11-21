@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:deep_ocean",
+    "rttc:frozen_ocean",
+    "rttc:ocean"
+  ]
+}

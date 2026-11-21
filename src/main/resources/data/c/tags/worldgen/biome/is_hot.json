@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:desert",
+    "rttc:jungle",
+    "rttc:mushroom_fields"
+  ]
+}

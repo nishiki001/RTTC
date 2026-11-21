@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:birch_forest",
+    "rttc:desert",
+    "rttc:forest",
+    "rttc:jungle",
+    "rttc:mushroom_fields",
+    "rttc:plains",
+    "rttc:snowy_plains",
+    "rttc:snowy_taiga",
+    "rttc:taiga",
+    "rttc:windswept_hills"
+  ]
+}

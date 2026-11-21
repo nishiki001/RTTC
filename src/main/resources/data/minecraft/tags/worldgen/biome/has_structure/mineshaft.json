@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:beach",
+    "rttc:birch_forest",
+    "rttc:deep_ocean",
+    "rttc:desert",
+    "rttc:forest",
+    "rttc:frozen_ocean",
+    "rttc:frozen_river",
+    "rttc:jungle",
+    "rttc:mushroom_fields",
+    "rttc:ocean",
+    "rttc:plains",
+    "rttc:river",
+    "rttc:snowy_plains",
+    "rttc:snowy_taiga",
+    "rttc:swamp",
+    "rttc:taiga",
+    "rttc:windswept_hills"
+  ]
+}

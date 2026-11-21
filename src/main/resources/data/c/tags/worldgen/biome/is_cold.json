@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:frozen_ocean",
+    "rttc:frozen_river",
+    "rttc:snowy_plains",
+    "rttc:snowy_taiga",
+    "rttc:taiga",
+    "rttc:windswept_hills"
+  ]
+}

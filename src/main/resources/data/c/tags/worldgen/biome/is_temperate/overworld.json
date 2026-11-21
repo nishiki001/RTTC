@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "rttc:beach",
+    "rttc:birch_forest",
+    "rttc:deep_ocean",
+    "rttc:forest",
+    "rttc:ocean",
+    "rttc:plains",
+    "rttc:swamp"
+  ]
+}
