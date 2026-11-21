@@ -28,3 +28,9 @@
   next to the Claude trailer, so GitHub shows the Gemini avatar. That is Google's official Gemini Code Assist
   app (owner `google`); the `antigravity-agent[bot]` account was rejected because its owner can't be verified.
   The bot is not literally Antigravity, so README states the project is developed with Claude Code and Gemini.
+- 2026-11-21: Correction to the Programmer Art entry: `PackSelectionConfig(required, BOTTOM, fixed)` alone put the
+  pack BELOW vanilla (`Pack.Position.insert` places fixed BOTTOM packs under non-fixed ones, and vanilla is
+  BOTTOM but not fixed). Fixed with our first mixin, `mixin/client/PackRepositoryMixin`: after `rebuildSelected`
+  (used by reload/setSelected) and after `addPack`/`removePack` it moves programmer_art to directly after vanilla.
+  The pack stays required and fixed (can't be moved or disabled, never saved to options). Order top→bottom: user
+  packs, Mod Resources, Programmer Art, Default. Mixins load from `rttc.mixins.json` (client section).

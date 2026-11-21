@@ -13,7 +13,8 @@
 - [x] M0.6 Two-tier Gemini path (`scripts/gemini-team.py`: Neon plans/reviews, parallel Hydrogen workers), smoke-tested and reverted
 - [ ] **M1 The Look**
   - [x] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
-        in the pack screen. (`client/ForcedProgrammerArt`, awaiting in-game check.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
+        in the pack screen. (`client/ForcedProgrammerArt` + `mixin/client/PackRepositoryMixin`; log confirms order
+        `vanilla, programmer_art, mod_resources`; visual check of leaves/grass/pack screen still needs Anton.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
         `ServerPacksSource`/`ClientPackSource`, `PackRepository`, `Options.resourcePacks`), then pick
         the cleanest hook (NeoForge `AddPackFindersEvent` with a required/fixed `PackSelectionConfig`
         vs. a small mixin). Record the choice in DECISIONS.
