@@ -20,7 +20,18 @@ model: sonnet
 3. Check the result: `git diff --stat`, then `./gradlew build` (report like build-runner: pass/fail plus
    key errors only), then review the diff against CLAUDE.md. For two-tier runs, also check every
    "unresolved" item from the log.
-4. If it's good, commit with the message "gemini: <task>". If it's bad, `git checkout . && git clean -fd`
+4. If it's good, commit with subject "gemini: <task>" (either path) and BOTH trailers, exactly:
+   ```
+   git commit -F - <<'EOF'
+   gemini: <task>
+
+   <one or two lines: what changed, which path (single/two-tier)>
+
+   Co-Authored-By: Gemini <gemini@antigravity.invalid>
+   Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+   EOF
+   ```
+   If it's bad, `git checkout . && git clean -fd`
    (only the files Gemini created), sharpen the spec, and retry ONCE. If it's still bad, hand the task
    back with a summary.
 Report: task, path used, PASS/FAIL, files changed, unresolved items, anything the main agent should double-check.

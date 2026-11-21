@@ -23,3 +23,7 @@
   then Neon reviews and fixes small issues inside the owned files and returns {status, fixed, unresolved}.
   Log: `.gemini-tasks/<name>.log`. gemini-delegate uses it only for more than ~5 independent files;
   `gemini-task.sh` stays the default. Smoke-tested with 3 JSON files (~15 s per worker), build passed, reverted.
+- 2026-11-21: Every commit gemini-delegate makes (single-agent or two-tier path; the scripts never commit
+  themselves) carries `Co-Authored-By: Gemini <gemini@antigravity.invalid>` next to the Claude trailer.
+  The `.invalid` address can't belong to any GitHub account, so GitHub shows "Gemini" without an avatar
+  and never credits a stranger. README states the project is developed with Claude Code and Gemini.

@@ -5,6 +5,8 @@ Beta-style worlds, and a steam → rails → electricity progression inspired by
 
 Work in progress. See `docs/PLAN.md`.
 
+Developed with Claude Code and Gemini.
+
 ## Development
 - JDK 21, IntelliJ IDEA (open `build.gradle` as a project).
 - `./gradlew runClient` to launch, `./gradlew build` to build.
