@@ -41,3 +41,6 @@ repo/
 
 ### Agents ###
 .gemini-tasks/
+
+### Python ###
+__pycache__/
