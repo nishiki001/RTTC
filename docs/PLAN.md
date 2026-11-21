@@ -10,6 +10,7 @@
 ## Milestones
 - [x] M0 Bootstrap: renamed template, CLAUDE.md, agents, docs
 - [x] M0.5 Gemini wired up and smoke-tested (`agy`, lang-key smoke test passed and reverted)
+- [x] M0.6 Two-tier Gemini path (`scripts/gemini-team.py`: Neon plans/reviews, parallel Hydrogen workers), smoke-tested and reverted
 - [ ] **M1 The Look**
   - [x] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
         in the pack screen. (`client/ForcedProgrammerArt`, awaiting in-game check.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /

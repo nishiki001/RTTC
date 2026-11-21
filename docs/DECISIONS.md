@@ -15,3 +15,11 @@
 - 2026-11-21: Programmer Art is forced via `AddPackFindersEvent` (no mixin): a `BuiltInPackSource` re-emits
   vanilla's `programmer_art` under the same id with `PackSelectionConfig(required, BOTTOM, fixed)`, replacing
   the vanilla entry (last source wins per id). It sits right above vanilla, so mods and user packs can still override it.
+- 2026-11-21: Two-tier Gemini path `scripts/gemini-team.py`, built ourselves. agy 1.5.13 does have built-ins
+  (Orchestrator (Neon) model, `/swarm` preview, `run_workflow` tool), but none enforce per-worker file
+  ownership or give per-subtask headless results. Flow: Neon plans in plan mode via `--json-schema`
+  (disjoint file ownership, validated), then up to 4 Hydrogen (`gemini-4-hydrogen-medium`) workers in parallel,
+  each in its own detached git worktree (only owned files are copied back; anything else is logged and dropped),
+  then Neon reviews and fixes small issues inside the owned files and returns {status, fixed, unresolved}.
+  Log: `.gemini-tasks/<name>.log`. gemini-delegate uses it only for more than ~5 independent files;
+  `gemini-task.sh` stays the default. Smoke-tested with 3 JSON files (~15 s per worker), build passed, reverted.
