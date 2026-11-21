@@ -24,6 +24,15 @@ CHECK = ["minecraft:deepslate", "minecraft:tuff", "minecraft:granite", "minecraf
          "minecraft:deepslate_copper_ore", "minecraft:iron_ore", "minecraft:diamond_ore", "minecraft:mossy_cobblestone"]
 AIRS = {"minecraft:air", "minecraft:cave_air", "minecraft:void_air"}
 FLUIDS = {"minecraft:water", "minecraft:lava"}
+TERRAIN_PARTS = ("stone", "dirt", "grass_block", "sand", "gravel", "_ore", "clay", "mycelium", "podzol", "bedrock",
+                 "snow_block", "ice", "obsidian")
+
+
+def is_terrain(name: str) -> bool:
+    """Natural ground only: trees, plants and snow layers don't count as surface or overhang."""
+    return any(p in name for p in TERRAIN_PARTS)
+
+
 SOFT = AIRS | FLUIDS | {"minecraft:snow", "minecraft:short_grass", "minecraft:tall_grass", "minecraft:fern",
                          "minecraft:seagrass", "minecraft:tall_seagrass", "minecraft:kelp", "minecraft:kelp_plant"}
 
@@ -147,7 +156,7 @@ def main() -> int:
                         biomes[b] += 64
             tops = {}
             for (cx, cz), col in cols.items():
-                solid = [y for y, nm in col.items() if nm not in SOFT]
+                solid = [y for y, nm in col.items() if is_terrain(nm)]
                 if not solid:
                     continue
                 top = max(solid)

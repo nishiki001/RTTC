@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.BackupConfirmScreen;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +25,8 @@ import net.neoforged.neoforge.common.NeoForge;
  * property names a viewpoint file (see the {@code devshots} run in build.gradle). Each non-empty, non-# line is
  * {@code name x y z yaw pitch}. In a singleplayer world it switches to spectator, noon, clear weather, hides the HUD,
  * then for each viewpoint teleports, waits for the chunks to render and saves
- * {@code screenshots/<world>-<name>.png}. It quits the game after the last one.
+ * {@code screenshots/<world>-<name>.png}. It quits the game after the last one. Test worlds carry world-gen
+ * datapacks, which the game flags as experimental, so it also confirms that warning screen on its own.
  */
 public final class DevShots {
     private record Shot(String name, double x, double y, double z, float yaw, float pitch) {}
@@ -64,9 +69,25 @@ public final class DevShots {
         NeoForge.EVENT_BUS.addListener(ClientTickEvent.Post.class, e -> handler.tick());
     }
 
+    /** Presses "I know what I'm doing!" on the experimental-settings backup prompt (dev runs only). */
+    private static void confirmExperimentalWarning(BackupConfirmScreen screen) {
+        for (GuiEventListener child : screen.children()) {
+            if (child instanceof Button button && button.getMessage().getContents() instanceof TranslatableContents tc
+                    && tc.getKey().equals("selectWorld.backupJoinSkipButton")) {
+                RTTC.LOGGER.info("[devshots] skipping the experimental-settings warning for this test world");
+                button.onPress();
+                return;
+            }
+        }
+    }
+
     private void tick() {
         Minecraft mc = Minecraft.getInstance();
         MinecraftServer server = mc.getSingleplayerServer();
+        if (mc.level == null && mc.screen instanceof BackupConfirmScreen screen) {
+            confirmExperimentalWarning(screen); // test worlds carry world-gen datapacks, which count as experimental
+            return;
+        }
         if (mc.level == null || mc.player == null || server == null) {
             return;
         }
@@ -80,6 +101,7 @@ public final class DevShots {
         if (!this.prepared) {
             this.prepared = true;
             mc.options.hideGui = true;
+            mc.options.pauseOnLostFocus = false; // otherwise an unfocused window pauses and we shoot the menu
             server.execute(() -> {
                 ServerLevel level = server.overworld();
                 server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
@@ -105,12 +127,18 @@ public final class DevShots {
             this.wait = 0;
             return;
         }
+        if (mc.screen != null) {
+            mc.setScreen(null); // close pause menu / any screen, then wait the full time again
+            this.wait = 0;
+            return;
+        }
         this.wait++;
         boolean rendered = mc.levelRenderer.hasRenderedAllSections();
         if (this.wait >= MAX_WAIT || (this.wait >= MIN_WAIT && rendered)) {
             String name = server.getWorldData().getLevelName() + "-" + shot.name() + ".png";
+            int waited = this.wait;
             Screenshot.grab(mc.gameDirectory, name, mc.getMainRenderTarget(),
-                    msg -> RTTC.LOGGER.info("[devshots] {} ({} ticks, rendered={})", name, this.wait, rendered));
+                    msg -> RTTC.LOGGER.info("[devshots] {} ({} ticks, rendered={})", name, waited, rendered));
             this.index++;
             this.wait = -1;
         }

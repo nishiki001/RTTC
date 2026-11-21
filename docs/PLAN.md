@@ -4,7 +4,7 @@
 1. Anton runs `./gradlew runClient` once and checks: "RTTC" is in the Mods list; Options → Resource Packs
    shows "Programmer Art" selected, directly above Default, and it can't be removed or moved; blocks use the
    old textures. (Build passes; this needs a human with a screen.)
-2. **M2 in-game check by Anton** (all automated checks pass). Create a world with World Type "Classic", then check:
+2. **M2: Anton picks a terrain variant (A/B/C, comparison page), then I make it the default.** Then the in-game check by Anton (all automated checks pass). Create a world with World Type "Classic", then check:
    - lime grass and leaves look right;
    - the terrain feels Beta-style;
    - the "Verification → For Anton" list in "M2 plan" below.

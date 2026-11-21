@@ -69,3 +69,12 @@
   biome `thresholds`, and the `ocean`/`beach` thresholds against `base_y`/`height_scale` (coast at
   72.6 − 0.16·60 = 63). Biome spawners are vanilla's (modern mobs included) until Anton decides. The grass and
   foliage colours are starting values.
+- 2026-11-21: Classic colours: Alpha-bright lime. Temperate biomes (incl. taiga, jungle, water, mushroom) use grass
+  #7FEA45 and foliage #5FD02F. Snowy uses #9AE27A / #77CC58. Desert keeps its dry yellow. Swamp keeps vanilla's
+  `swamp` modifier, the only `grass_color_modifier`. Programmer Art leaves still render darker than the grass.
+- 2026-11-21: Classic mobs: roughly the 1.12.2 roster. Removed: cod, salmon, dolphin, turtle, drowned, fox, panda,
+  frog, glow squid, bogged, plus parrots (Anton). Kept: horses/donkeys, llamas, rabbits, polar bears, strays,
+  husks, ocelots; guardians come from monuments. Bee nests on trees (1.15) are still there via vanilla tree features.
+- 2026-11-21: Terrain variants A/B/C (Beta ratios / amplified / wild) are compared on a page for Anton. They are
+  world-local datapack overrides of `rttc:classic/terrain`, made by scratch scripts. The mod's default terrain is
+  unchanged until Anton picks one.
