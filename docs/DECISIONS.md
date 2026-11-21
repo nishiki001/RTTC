@@ -45,3 +45,12 @@
   - Vanilla copper ore is kept and reused as RTTC's copper.
   - Structures kept: villages, ocean monuments, desert and jungle temples, witch huts, mineshafts, strongholds,
     dungeons, igloos. Excluded: trial chambers, ancient cities, pillager outposts, woodland mansions, trail ruins.
+- 2026-11-21: Classic world gen keeps vanilla's `NoiseBasedChunkGenerator` and adds two hooks: a density function type
+  `rttc:beta_terrain` and a biome source `rttc:classic`. Both read the same `continents`/`river` functions, so coasts
+  and rivers match. World-gen data is hand-written JSON, not datagen, so it can be diffed against vanilla's JSON.
+- 2026-11-21: Classic aquifers: `aquifers_enabled: false` would flood every carved cave below sea level, so the
+  aquifer stays on with its floodedness, spread and lava noises pinned to constants: no underground water or lava
+  pockets, dry caves. If that fails the spike, fall back to a small mixin on the fluid picker.
+- 2026-11-21: Classic world also excludes ocean ruins, shipwrecks, ruined portals and buried treasure; underground
+  blobs are dirt and gravel only. `rttc:` biomes join kept structures' `has_structure/*` tags and `is_overworld`
+  directly, and never the `minecraft:is_*` group tags (those pull in the excluded structures).
