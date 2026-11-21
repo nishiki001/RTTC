@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Two-tier Gemini run: Neon plans, Hydrogen workers edit in parallel, Neon reviews.
 
-Usage: scripts/gemini-team.py <task-file> [--workers N] [--lead MODEL] [--worker-model MODEL]
+Usage: scripts/gemini-team.py <task-file> [--workers N] [--lead MODEL] [--worker-model MODEL] [--ref-dir DIR ...]
 
 1. Plan:   Neon (plan mode, no edits) splits the spec into subtasks via --json-schema. Every subtask
            owns a disjoint set of files; the script rejects overlapping or out-of-repo paths.
@@ -66,9 +66,10 @@ REVIEW_SCHEMA = {
     "required": ["status", "fixed", "unresolved"],
 }
 
-RULES = """Rules: work only inside this repository. Follow CLAUDE.md. Use file read/edit tools only: shell
+RULES = """Rules: work only inside this repository (reference directories, if any, are read-only). Follow CLAUDE.md. Use file read/edit tools only: shell
 commands are auto-denied in this mode (do not run gradle, git or validators). Do not commit."""
 
+REF_DIRS: list[str] = []  # read-only reference dirs (outside git), added to every agy workspace
 _log_lock = threading.Lock()
 _git_lock = threading.Lock()
 
@@ -93,6 +94,8 @@ def agy(prompt: str, model: str, mode: str, cwd: Path, schema: dict | None = Non
            "--print-timeout", TIMEOUT, "--output-format", "json"]
     if schema is not None:
         cmd += ["--json-schema", json.dumps(schema)]
+    for d in REF_DIRS:
+        cmd += ["--add-dir", d]
     try:
         proc = subprocess.run(cmd, cwd=cwd, text=True, capture_output=True, timeout=HARD_TIMEOUT_S)
     except subprocess.TimeoutExpired:
@@ -229,11 +232,17 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=MAX_WORKERS, help=f"parallel workers (capped at {MAX_WORKERS})")
     ap.add_argument("--lead", default=LEAD)
     ap.add_argument("--worker-model", default=WORKER)
+    ap.add_argument("--ref-dir", action="append", default=[],
+                    help="read-only reference directory outside git (repeatable); workers can read it, never edit it")
     args = ap.parse_args()
+    REF_DIRS.extend(str(Path(d).resolve()) for d in args.ref_dir)
 
     repo = Path(git("rev-parse", "--show-toplevel", cwd=Path.cwd()).strip())
     task_file = Path(args.task_file).resolve()
     spec = task_file.read_text(encoding="utf-8")
+    if REF_DIRS:
+        spec += "\n\nRead-only reference directories (absolute paths; read, never edit):\n" + \
+                "\n".join(f"- {d}" for d in REF_DIRS)
     log = Log(repo / ".gemini-tasks" / f"{task_file.stem}.log")
 
     if changed_files(repo):
