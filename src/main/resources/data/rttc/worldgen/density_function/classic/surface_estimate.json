@@ -6,12 +6,12 @@
   "continents": "rttc:classic/continents",
   "river": "rttc:classic/river",
   "shape": {
-    "base_y": 72.6,
-    "height_scale": 60.0,
-    "relief": 40.0,
+    "base_y": 67.0,
+    "height_scale": 25,
+    "relief": 36,
     "below_surface_factor": 4.0,
-    "noise_amplitude": 1.0,
-    "selector_sharpness": 8.0,
+    "noise_amplitude": 2.0,
+    "selector_sharpness": 5.7,
     "xz_scale": 171.103,
     "y_scale": 85.55,
     "main_xz_scale": 2.139,
@@ -19,7 +19,9 @@
     "river_width": 0.022,
     "river_floor_y": 59.0,
     "min_y": -64,
-    "max_y": 320
+    "max_y": 320,
+    "estimate_offset": 15
   },
+  "relief_scale": "rttc:classic/relief_scale",
   "surface_estimate": true
 }

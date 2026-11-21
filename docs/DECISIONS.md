@@ -83,3 +83,7 @@
   on vanilla trees, so plains, forest and birch forest use `rttc:trees_plains/trees_birch/trees_birch_and_oak`:
   vanilla placement, nest-free oak/fancy oak/birch. A recursive reference check, controlled against vanilla's bee
   trees, finds no beehive reachable from any rttc: biome. Test world: 0 bee nests, trees intact.
+- 2026-11-21: Classic terrain = variant A ("Beta 1.7.3 ratios, 2× vertical"), picked by Anton. Values: noise_amplitude
+  2.0, relief 36, selector_sharpness 5.7, below_surface_factor 4, height_scale 25 (smaller continents weight), base_y
+  67 (coast at continents −0.16), estimate_offset 15. relief_scale = clamp(1 + 0.8·noise, 0.5, 1.5), Beta's
+  per-column "scale". Measured on 2 seeds: cliffs ~2.8%, overhangs ~5%, max height ~180, biome/terrain match 79–87%.
