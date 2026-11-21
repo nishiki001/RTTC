@@ -1,0 +1,65 @@
+{
+  "dimensions": {
+    "minecraft:overworld": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:noise",
+        "settings": "rttc:classic",
+        "biome_source": {
+          "type": "rttc:classic",
+          "water": {
+            "deep_ocean": "minecraft:deep_ocean",
+            "ocean": "minecraft:ocean",
+            "frozen_ocean": "minecraft:frozen_ocean",
+            "beach": "minecraft:beach",
+            "river": "minecraft:river",
+            "frozen_river": "minecraft:frozen_river",
+            "mushroom_fields": "minecraft:mushroom_fields"
+          },
+          "land": {
+            "plains": "minecraft:plains",
+            "forest": "minecraft:forest",
+            "birch_forest": "minecraft:birch_forest",
+            "taiga": "minecraft:taiga",
+            "swamp": "minecraft:swamp",
+            "desert": "minecraft:desert",
+            "jungle": "minecraft:jungle",
+            "windswept_hills": "minecraft:windswept_hills",
+            "snowy_plains": "minecraft:snowy_plains",
+            "snowy_taiga": "minecraft:snowy_taiga"
+          },
+          "thresholds": {
+            "deep_ocean": -0.43,
+            "ocean": -0.16,
+            "beach": -0.11,
+            "hills": 0.4,
+            "river_width": 0.022,
+            "mushroom": 0.4,
+            "frozen": 0.15
+          }
+        }
+      }
+    },
+    "minecraft:the_end": {
+      "type": "minecraft:the_end",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:the_end"
+        },
+        "settings": "minecraft:end"
+      }
+    },
+    "minecraft:the_nether": {
+      "type": "minecraft:the_nether",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:multi_noise",
+          "preset": "minecraft:nether"
+        },
+        "settings": "minecraft:nether"
+      }
+    }
+  }
+}

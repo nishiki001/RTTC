@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:flat_cache",
+  "argument": {
+    "type": "minecraft:add",
+    "argument1": "rttc:classic/continents_base",
+    "argument2": {
+      "type": "minecraft:mul",
+      "argument1": 0.8,
+      "argument2": "rttc:classic/mushroom"
+    }
+  }
+}

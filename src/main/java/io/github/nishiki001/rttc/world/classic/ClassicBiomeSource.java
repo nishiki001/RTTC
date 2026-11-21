@@ -130,7 +130,12 @@ public final class ClassicBiomeSource extends BiomeSource {
         return betaLand(temp, hum);
     }
 
-    /** Beta 1.7.3's BiomeGenBase lookup (humidity is multiplied by temperature first), on our biome set. */
+    /**
+     * Beta 1.7.3's BiomeGenBase lookup (humidity is multiplied by temperature first), on our biome set. One change:
+     * dry tundra needs temp &lt; 0.3 instead of 0.5. With the Classic climate noises (stretch 3.5, temperature +0.3)
+     * the land split is roughly plains 29, snowy plains 16, forest 14, birch 9, taiga 8, desert 8, snowy taiga 7,
+     * jungle 6, swamp 4 (%).
+     */
     private Holder<Biome> betaLand(double temp, double hum) {
         LandBiomes l = this.land;
         double h = hum * temp;
@@ -138,7 +143,7 @@ public final class ClassicBiomeSource extends BiomeSource {
             return hum > 0.5 ? l.snowyTaiga() : l.snowyPlains(); // tundra
         }
         if (h < 0.2) {
-            if (temp < 0.5) {
+            if (temp < 0.3) { // Beta used 0.5 here, which made ~25% of all land tundra
                 return l.snowyPlains(); // tundra
             }
             return temp < 0.95 ? l.plains() /* savanna */ : l.desert();

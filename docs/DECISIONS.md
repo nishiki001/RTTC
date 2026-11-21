@@ -54,3 +54,12 @@
 - 2026-11-21: Classic world also excludes ocean ruins, shipwrecks, ruined portals and buried treasure; underground
   blobs are dirt and gravel only. `rttc:` biomes join kept structures' `has_structure/*` tags and `is_overworld`
   directly, and never the `minecraft:is_*` group tags (those pull in the excluded structures).
+- 2026-11-21: Classic tuning comes from measured noise spread, not guesswork. NormalNoise σ is about 0.29 for our
+  climate noises and 0.31 for continents. Climate stretch is ×3.5, with temperature +0.3. Beta's dry-tundra branch
+  is cut from t<0.5 to t<0.3; otherwise ~25% of land is snowy plains. Continents thresholds: deep −0.43, ocean
+  −0.16, beach −0.11, hills 0.40 (≈8/30/5/10 %). `base_y` 72.6 puts the terrain's sea-level crossing on the ocean
+  threshold. River width is 0.022 (≈5% of land).
+- 2026-11-21: `scripts/worldcheck.py` reads region files to check a generated world: surface heights, ocean share,
+  biome and structure shares, forbidden blocks, flooded caves, floor holes. Headless runs use a throwaway
+  `run/classic-spike` world with a world-local forceload datapack, because gradle doesn't forward stdin to
+  `runServer`.

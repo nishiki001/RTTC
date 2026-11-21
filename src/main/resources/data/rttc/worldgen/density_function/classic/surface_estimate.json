@@ -1,0 +1,25 @@
+{
+  "type": "rttc:beta_terrain",
+  "min_limit_noise": "rttc:classic/min_limit",
+  "max_limit_noise": "rttc:classic/max_limit",
+  "main_noise": "rttc:classic/main",
+  "continents": "rttc:classic/continents",
+  "river": "rttc:classic/river",
+  "shape": {
+    "base_y": 72.6,
+    "height_scale": 60.0,
+    "relief": 40.0,
+    "below_surface_factor": 4.0,
+    "noise_amplitude": 1.0,
+    "selector_sharpness": 8.0,
+    "xz_scale": 171.103,
+    "y_scale": 85.55,
+    "main_xz_scale": 2.139,
+    "main_y_scale": 0.535,
+    "river_width": 0.022,
+    "river_floor_y": 59.0,
+    "min_y": -64,
+    "max_y": 320
+  },
+  "surface_estimate": true
+}
