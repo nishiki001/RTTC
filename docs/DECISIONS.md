@@ -34,3 +34,14 @@
   (used by reload/setSelected) and after `addPack`/`removePack` it moves programmer_art to directly after vanilla.
   The pack stays required and fixed (can't be moved or disabled, never saved to options). Order top→bottom: user
   packs, Mod Resources, Programmer Art, Default. Mixins load from `rttc.mixins.json` (client section).
+- 2026-11-21: Classic world (M2) decided, replacing "modern biomes" and the open world-height question:
+  - Biomes: only a 1.2.5-era set, as our own `rttc:` biomes: plains, forest, birch forest, taiga, swamp, desert,
+    jungle (no bamboo), windswept hills, snowy plains, snowy taiga, mushroom fields, river, frozen river, beach,
+    ocean, frozen ocean, deep ocean.
+  - Lime grass, foliage and water colours live in these biomes' JSON, not code. Since the `rttc:` biomes only
+    exist in the Classic preset, this also settles "lime only in Classic" with no client-side signal.
+  - Height: vanilla −64..320, with Beta-style noise scaled to use it.
+  - No deepslate (stone down to bedrock), no geodes, glow lichen, aquifers or noise caves; carver caves only.
+  - Vanilla copper ore is kept and reused as RTTC's copper.
+  - Structures kept: villages, ocean monuments, desert and jungle temples, witch huts, mineshafts, strongholds,
+    dungeons, igloos. Excluded: trial chambers, ancient cities, pillager outposts, woodland mansions, trail ruins.
