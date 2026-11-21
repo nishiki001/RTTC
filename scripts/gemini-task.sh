@@ -15,7 +15,8 @@ fi
 
 PROMPT="$(cat "$TASK_FILE")
 
-Rules: work only inside this repository. Follow CLAUDE.md. Do not run gradle. Do not commit.
+Rules: work only inside this repository. Follow CLAUDE.md. Use file read/edit tools only: shell commands
+are auto-denied in this mode (do not run gradle, git or validators). Do not commit.
 When finished, print a short list of the files you changed."
 
 # Antigravity CLI (`agy`, verified against `agy --help` / `agy models`):

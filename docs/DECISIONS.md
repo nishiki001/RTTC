@@ -8,3 +8,5 @@
   Energy: mechanical/steam → electric via generators, no RF/FE soup.
 - 2026-11-21: mod_id `rttc`, name "RTTC" (never expanded), package `io.github.nishiki001.rttc`.
 - 2026-11-21: Gemini (Antigravity CLI) does bulk, well-specified work; Claude does architecture and review.
+- 2026-11-21: Gemini runs via `agy -p --mode accept-edits` (edits auto-approved, shell auto-denied), default model
+  `gemini-4-neon-high`. Claude runs gradle/validation afterwards.

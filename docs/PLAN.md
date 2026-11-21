@@ -1,19 +1,14 @@
 # RTTC plan
 
 ## Next up (for local Claude Code)
-1. Run `build-runner` and confirm the renamed skeleton builds. Anton runs `runClient` once to check
-   that "RTTC" shows in the Mods list.
-2. **Wire up Gemini.** Find the Antigravity CLI binary (`compgen -c | grep -iE 'antigravity|agy|gemini'`),
-   read its `--help`, and fill `GEMINI_CMD` in `scripts/gemini-task.sh`. You need one-shot/headless
-   prompt, model selection (Gemini 4 Neon / Hydrogen) and auto-approving edits. Don't guess flags.
-   Smoke test: delegate "add lang key `rttc.test`=`Test`" via `gemini-delegate`, then revert it.
-3. **ASK Anton** about the license (currently All Rights Reserved, which blocks forks and addons;
+1. Anton runs `./gradlew runClient` once to check that "RTTC" shows in the Mods list (build passes).
+2. **ASK Anton** about the license (currently All Rights Reserved, which blocks forks and addons;
    MIT/LGPL allows them).
-4. Start **M1**.
+3. Start **M1**.
 
 ## Milestones
 - [x] M0 Bootstrap: renamed template, CLAUDE.md, agents, docs
-- [ ] M0.5 Gemini wired up and smoke-tested
+- [x] M0.5 Gemini wired up and smoke-tested (`agy`, lang-key smoke test passed and reverted)
 - [ ] **M1 The Look**
   - [ ] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
         in the pack screen. Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
