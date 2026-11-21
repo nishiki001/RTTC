@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(scripts/gemini-task.sh:*)"
+    ],
+    "deny": [
+      "Read(./build/**)",
+      "Read(./run/**)",
+      "Read(./.gradle/**)",
+      "Read(./**/*.log)",
+      "Read(./gradle/wrapper/**)",
+      "Read(./src/generated/**/.cache/**)"
+    ]
+  }
+}
