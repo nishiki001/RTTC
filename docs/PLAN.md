@@ -4,7 +4,7 @@
 1. Anton runs `./gradlew runClient` once and checks: "RTTC" is in the Mods list; Options → Resource Packs
    shows "Programmer Art" selected, directly above Default, and it can't be removed or moved; blocks use the
    old textures. (Build passes; this needs a human with a screen.)
-2. **M2** (plan approved 2026-11-21, see "M2 plan" below): step 1, the Java world-gen hooks. The M1 water
+2. **M2** (plan approved 2026-11-21, see "M2 plan" below): step 2, core world-gen data + dry-cave spike. The M1 water
    colour still needs screenshots for Anton.
 
 ## Milestones
@@ -22,7 +22,7 @@
         go in the `rttc:` biome JSONs, which only exist in Classic, so no client-side signal is needed.
   - [ ] Look at water colour (flat old blue?), and **ASK Anton** with screenshots.
 - [ ] **M2 Classic world preset**: Beta-style terrain, 17 `rttc:` 1.2.5-era biomes, −64..320, no deepslate,
-      carver caves only, curated structures. See "M2 plan" below. Steps: [x] 0 plan  [ ] 1 Java  [ ] 2 core data +
+      carver caves only, curated structures. See "M2 plan" below. Steps: [x] 0 plan  [x] 1 Java  [ ] 2 core data +
       spike  [ ] 3 G1 biomes  [ ] 4 G2 tags  [ ] 5 review
 - [ ] M3 Stone age (flint/stone tools, work stump, charcoal pit, bloomery). 30–60 min, light.
 - [ ] M4 Steam: boilers, engines, shafts; first visible-item pipes
