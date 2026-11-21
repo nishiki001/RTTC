@@ -120,3 +120,6 @@
   non-borrowing biome (8 directions, steps of 4 up to 48 blocks). For `#rttc:tint_blends_neighbors` (beach), 60% of
   sample positions (fixed hash) do the same, so vanilla's biome blend averages to ~60% neighbour / 40% own. Water
   colour is untouched. Verified with built test scenes (taiga|river|plains, plains|beach|desert).
+- 2026-11-21: M1 and M2 accepted by Anton after in-game review. The dirt band on grass block sides stays the modern
+  texture, and the water (#738EFF, ~31 short in blue vs Alpha) is accepted as is. No own water texture is planned.
+  Next milestone: M3 stone age.

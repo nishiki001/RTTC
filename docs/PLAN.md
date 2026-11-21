@@ -1,35 +1,26 @@
 # RTTC plan
 
 ## Next up (for local Claude Code)
-1. Anton runs `./gradlew runClient` once and checks: "RTTC" is in the Mods list; Options → Resource Packs
-   shows "Programmer Art" selected, directly above Default, and it can't be removed or moved; blocks use the
-   old textures. (Build passes; this needs a human with a screen.)
-2. **M2: terrain A, colours calibrated, Alpha-style textures (done; see calibration page).** Then biome colour groups (option 1) + river/beach neighbour tint + Programmer Art leaves (done). Open: own water texture (blue still 31 short), grass side dirt. Then the in-game check by Anton (all automated checks pass). Create a world with World Type "Classic", then check:
-   - lime grass and leaves look right;
-   - the terrain feels Beta-style;
-   - the "Verification → For Anton" list in "M2 plan" below.
-   Open questions for Anton:
-   (a) the lime colour values are only starting values;
-   (b) biome spawn lists are still vanilla's, including post-1.2.5 mobs (fox, panda, parrot, frog, cod/salmon,
-       dolphin, turtle, rabbit, polar bear, glow squid): keep them or trim to 1.2.5?
-   (c) old water colour (M1). The M1 water
-   colour still needs screenshots for Anton.
+1. **M3 Stone age**: write the plan in plan mode first (flint/stone tools, work stump, charcoal pit, bloomery;
+   30–60 min of play, light). Ask Anton before coding.
+2. Small leftover check (Anton, whenever convenient): Options → Resource Packs shows "Programmer Art" directly above
+   Default and it can't be removed or moved. In-game textures already confirm it's active.
 
 ## Milestones
 - [x] M0 Bootstrap: renamed template, CLAUDE.md, agents, docs
 - [x] M0.5 Gemini wired up and smoke-tested (`agy`, lang-key smoke test passed and reverted)
 - [x] M0.6 Two-tier Gemini path (`scripts/gemini-team.py`: Neon plans/reviews, parallel Hydrogen workers), smoke-tested and reverted
-- [ ] **M1 The Look**
+- [x] **M1 The Look** (closed 2026-11-21; colours and textures finished in M2)
   - [x] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
         in the pack screen. (`client/ForcedProgrammerArt` + `mixin/client/PackRepositoryMixin`; log confirms order
-        `vanilla, programmer_art, mod_resources`; visual check of leaves/grass/pack screen still needs Anton.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
+        `vanilla, programmer_art, mod_resources`; confirmed in game.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
         `ServerPacksSource`/`ClientPackSource`, `PackRepository`, `Options.resourcePacks`), then pick
         the cleanest hook (NeoForge `AddPackFindersEvent` with a required/fixed `PackSelectionConfig`
         vs. a small mixin). Record the choice in DECISIONS.
   - [→] Lime Alpha/Beta grass, foliage and vine colours, only in Classic worlds: **moved to M2**. The colours
         go in the `rttc:` biome JSONs, which only exist in Classic, so no client-side signal is needed.
-  - [ ] Look at water colour (flat old blue?), and **ASK Anton** with screenshots.
-- [ ] **M2 Classic world preset**: Beta-style terrain, 17 `rttc:` 1.2.5-era biomes, −64..320, no deepslate,
+  - [x] Water colour: calibrated against the Alpha reference in M2 (#738EFF); Anton accepted it as is.
+- [x] **M2 Classic world preset** (accepted by Anton 2026-11-21): Beta-style terrain, 17 `rttc:` 1.2.5-era biomes, −64..320, no deepslate,
       carver caves only, curated structures. See "M2 plan" below. Steps: [x] 0 plan  [x] 1 Java  [x] 2 core data +
       spike  [x] 3 G1 biomes  [x] 4 G2 tags  [x] 5 review. **Code-complete; awaiting Anton's in-game check (list below).**
 - [ ] M3 Stone age (flint/stone tools, work stump, charcoal pit, bloomery). 30–60 min, light.
