@@ -44,3 +44,6 @@ repo/
 
 ### Python ###
 __pycache__/
+
+### Reference material (Mojang screenshots etc.; never commit, repo is public) ###
+docs/reference/
