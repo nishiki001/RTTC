@@ -12,3 +12,6 @@
   `gemini-4-neon-high`. Claude runs gradle/validation afterwards.
 - 2026-11-21: License LGPL-3.0-only (addons/forks allowed; modified RTTC must stay open).
 - 2026-11-21: Lime grass/foliage/vine colours only in the Classic preset, modern tints elsewhere.
+- 2026-11-21: Programmer Art is forced via `AddPackFindersEvent` (no mixin): a `BuiltInPackSource` re-emits
+  vanilla's `programmer_art` under the same id with `PackSelectionConfig(required, BOTTOM, fixed)`, replacing
+  the vanilla entry (last source wins per id). It sits right above vanilla, so mods and user packs can still override it.

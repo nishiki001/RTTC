@@ -1,15 +1,18 @@
 # RTTC plan
 
 ## Next up (for local Claude Code)
-1. Anton runs `./gradlew runClient` once to check that "RTTC" shows in the Mods list (build passes).
-2. Start **M1** (see below).
+1. Anton runs `./gradlew runClient` once and checks: "RTTC" is in the Mods list; Options → Resource Packs
+   shows "Programmer Art" selected, directly above Default, and it can't be removed or moved; blocks use the
+   old textures. (Build passes; this needs a human with a screen.)
+2. Continue **M1**: water colour (screenshots for Anton). The grass-colour task depends on the Classic
+   preset, so it probably lands with M2.
 
 ## Milestones
 - [x] M0 Bootstrap: renamed template, CLAUDE.md, agents, docs
 - [x] M0.5 Gemini wired up and smoke-tested (`agy`, lang-key smoke test passed and reverted)
 - [ ] **M1 The Look**
-  - [ ] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
-        in the pack screen. Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
+  - [x] Force vanilla's built-in `programmer_art` pack: always enabled, above vanilla, not removable
+        in the pack screen. (`client/ForcedProgrammerArt`, awaiting in-game check.) Original task: Have `explorer` check how vanilla registers it (`BuiltInPackSource` /
         `ServerPacksSource`/`ClientPackSource`, `PackRepository`, `Options.resourcePacks`), then pick
         the cleanest hook (NeoForge `AddPackFindersEvent` with a required/fixed `PackSelectionConfig`
         vs. a small mixin). Record the choice in DECISIONS.
