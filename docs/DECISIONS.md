@@ -63,3 +63,9 @@
   biome and structure shares, forbidden blocks, flooded caves, floor holes. Headless runs use a throwaway
   `run/classic-spike` world with a world-local forceload datapack, because gradle doesn't forward stdin to
   `runServer`.
+- 2026-11-21: M2 Classic is code-complete. The headless check on a 1296-chunk world found only `rttc:` biomes, 0
+  deepslate/tuff/granite/diorite/andesite/geode/glow lichen, dry caves, a village and mineshafts, and none of the
+  excluded structures. Kept in sync by hand (nothing enforces it): `river_width` in the terrain `shape` and in the
+  biome `thresholds`, and the `ocean`/`beach` thresholds against `base_y`/`height_scale` (coast at
+  72.6 − 0.16·60 = 63). Biome spawners are vanilla's (modern mobs included) until Anton decides. The grass and
+  foliage colours are starting values.
