@@ -4,7 +4,7 @@
 1. Anton runs `./gradlew runClient` once and checks: "RTTC" is in the Mods list; Options → Resource Packs
    shows "Programmer Art" selected, directly above Default, and it can't be removed or moved; blocks use the
    old textures. (Build passes; this needs a human with a screen.)
-2. **M2: terrain = variant A (done). Now: calibrate colours against docs/reference/alpha.png + Alpha-style leaf/grass textures.** Then the in-game check by Anton (all automated checks pass). Create a world with World Type "Classic", then check:
+2. **M2: terrain A, colours calibrated, Alpha-style textures (done; see calibration page).** Open: own water texture (blue still 31 short), birch/spruce leaf tint handler, grass side dirt. Then the in-game check by Anton (all automated checks pass). Create a world with World Type "Classic", then check:
    - lime grass and leaves look right;
    - the terrain feels Beta-style;
    - the "Verification → For Anton" list in "M2 plan" below.

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.CloudStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.components.Button;
@@ -23,16 +24,18 @@ import net.neoforged.neoforge.common.NeoForge;
 /**
  * Dev-only scripted screenshots for comparing world-gen variants. Inactive unless the {@code rttc.devshots} system
  * property names a viewpoint file (see the {@code devshots} run in build.gradle). Each non-empty, non-# line is
- * {@code name x y z yaw pitch}. In a singleplayer world it switches to spectator, noon, clear weather, hides the HUD,
+ * {@code name x y z yaw pitch}; lines starting with {@code /} are server commands run right after the next shot's
+ * teleport, once its chunks are loaded (e.g. to build a calibration scene). Smooth lighting and clouds are turned off. In a singleplayer world it switches to spectator, noon, clear weather, hides the HUD,
  * then for each viewpoint teleports, waits for the chunks to render and saves
  * {@code screenshots/<world>-<name>.png}. It quits the game after the last one. Test worlds carry world-gen
  * datapacks, which the game flags as experimental, so it also confirms that warning screen on its own.
  */
 public final class DevShots {
-    private record Shot(String name, double x, double y, double z, float yaw, float pitch) {}
+    private record Shot(String name, double x, double y, double z, float yaw, float pitch, List<String> commands) {}
 
     private static final int MIN_WAIT = 160;  // ticks after each teleport
     private static final int MAX_WAIT = 900;
+    private static final int COMMAND_DELAY = 40; // ticks after a teleport before that shot's commands run
     private final List<Shot> shots;
     private int index;
     private int wait = -1;
@@ -50,15 +53,21 @@ public final class DevShots {
             return;
         }
         List<Shot> shots = new ArrayList<>();
+        List<String> pending = new ArrayList<>();
         try {
             for (String line : Files.readAllLines(Path.of(spec))) {
                 String l = line.strip();
                 if (l.isEmpty() || l.startsWith("#")) {
                     continue;
                 }
+                if (l.startsWith("/")) { // server command, run after the NEXT shot's teleport
+                    pending.add(l.substring(1));
+                    continue;
+                }
                 String[] p = l.split("\\s+");
                 shots.add(new Shot(p[0], Double.parseDouble(p[1]), Double.parseDouble(p[2]), Double.parseDouble(p[3]),
-                        Float.parseFloat(p[4]), Float.parseFloat(p[5])));
+                        Float.parseFloat(p[4]), Float.parseFloat(p[5]), List.copyOf(pending)));
+                pending.clear();
             }
         } catch (IOException | RuntimeException e) {
             RTTC.LOGGER.error("[devshots] cannot read viewpoint file {}", spec, e);
@@ -102,6 +111,8 @@ public final class DevShots {
             this.prepared = true;
             mc.options.hideGui = true;
             mc.options.pauseOnLostFocus = false; // otherwise an unfocused window pauses and we shoot the menu
+            mc.options.ambientOcclusion().set(false); // smooth lighting off: flat Alpha-style face shading
+            mc.options.cloudStatus().set(CloudStatus.OFF); // clouds drift through calibration samples
             server.execute(() -> {
                 ServerLevel level = server.overworld();
                 server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
@@ -133,8 +144,18 @@ public final class DevShots {
             return;
         }
         this.wait++;
+        if (this.wait == COMMAND_DELAY && !shot.commands().isEmpty()) {
+            // chunks around the new position are loaded by now; /fill refuses unloaded positions
+            server.execute(() -> {
+                for (String cmd : shot.commands()) {
+                    RTTC.LOGGER.info("[devshots] /{}", cmd);
+                    server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), cmd);
+                }
+            });
+        }
+        int minWait = shot.commands().isEmpty() ? MIN_WAIT : COMMAND_DELAY + MIN_WAIT;
         boolean rendered = mc.levelRenderer.hasRenderedAllSections();
-        if (this.wait >= MAX_WAIT || (this.wait >= MIN_WAIT && rendered)) {
+        if (this.wait >= MAX_WAIT || (this.wait >= minWait && rendered)) {
             String name = server.getWorldData().getLevelName() + "-" + shot.name() + ".png";
             int waited = this.wait;
             Screenshot.grab(mc.gameDirectory, name, mc.getMainRenderTarget(),
