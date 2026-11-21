@@ -10,3 +10,5 @@
 - 2026-11-21: Gemini (Antigravity CLI) does bulk, well-specified work; Claude does architecture and review.
 - 2026-11-21: Gemini runs via `agy -p --mode accept-edits` (edits auto-approved, shell auto-denied), default model
   `gemini-4-neon-high`. Claude runs gradle/validation afterwards.
+- 2026-11-21: License LGPL-3.0-only (addons/forks allowed; modified RTTC must stay open).
+- 2026-11-21: Lime grass/foliage/vine colours only in the Classic preset, modern tints elsewhere.

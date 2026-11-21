@@ -2,9 +2,7 @@
 
 ## Next up (for local Claude Code)
 1. Anton runs `./gradlew runClient` once to check that "RTTC" shows in the Mods list (build passes).
-2. **ASK Anton** about the license (currently All Rights Reserved, which blocks forks and addons;
-   MIT/LGPL allows them).
-3. Start **M1**.
+2. Start **M1** (see below).
 
 ## Milestones
 - [x] M0 Bootstrap: renamed template, CLAUDE.md, agents, docs
@@ -15,8 +13,9 @@
         `ServerPacksSource`/`ClientPackSource`, `PackRepository`, `Options.resourcePacks`), then pick
         the cleanest hook (NeoForge `AddPackFindersEvent` with a required/fixed `PackSelectionConfig`
         vs. a small mixin). Record the choice in DECISIONS.
-  - [ ] Lime Alpha/Beta grass, foliage and vine colours via colour handlers or biome overrides. Decide:
-        everywhere, or only in the Classic preset? **ASK Anton.**
+  - [ ] Lime Alpha/Beta grass, foliage and vine colours via colour handlers or biome overrides, **only in
+        the Classic preset** (Anton, 2026-11-21). Needs a client-side "is this a Classic world" signal;
+        may be easiest to land together with M2's preset.
   - [ ] Look at water colour (flat old blue?), and **ASK Anton** with screenshots.
 - [ ] M2 Classic world preset: Beta-1.7.3-style 3D noise ChunkGenerator, modern biomes, carver caves,
       vanilla structures still generating. **ASK Anton about world height first** (~0–192 proposed).
