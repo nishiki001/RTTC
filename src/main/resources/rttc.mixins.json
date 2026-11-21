@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
-    "client.PackRepositoryMixin"
+    "client.PackRepositoryMixin",
+    "client.ClientLevelTintMixin"
   ],
   "injectors": {
     "defaultRequire": 1

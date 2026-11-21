@@ -35,7 +35,7 @@ public final class DevShots {
 
     private static final int MIN_WAIT = 160;  // ticks after each teleport
     private static final int MAX_WAIT = 900;
-    private static final int COMMAND_DELAY = 40; // ticks after a teleport before that shot's commands run
+    private static final int COMMAND_DELAY = 100; // ticks after a teleport before that shot's commands run
     private final List<Shot> shots;
     private int index;
     private int wait = -1;

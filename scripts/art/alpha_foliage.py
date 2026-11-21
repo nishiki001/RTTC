@@ -2,8 +2,8 @@
 """Procedural, original Alpha-spirit foliage textures for RTTC (see docs/art-bible.md).
 
 Writes greyscale 16x16 textures (the game tints them per biome) into
-src/main/resources/assets/minecraft/textures/block/:
-  grass_block_top, grass_block_side_overlay, oak_leaves, birch_leaves, spruce_leaves, jungle_leaves.
+src/main/resources/assets/minecraft/textures/block/: grass_block_top and grass_block_side_overlay.
+Leaves use Programmer Art's own textures (Anton, 2026-11-21); the leaf generator below is kept but not written.
 
 Nothing is copied from Mojang. The only vanilla input is the *shape* of the green fringe baked into
 vanilla's grass_block_side (read from the game jar at run time, never stored): our overlay must cover
@@ -114,6 +114,7 @@ def build(out: Path, jar: Path) -> dict[str, Image.Image]:
     # to be near-white for the reference green to be reachable (calibrated against docs/reference/alpha.png).
     leaf = [140, 180, 210, 235, 250, 255]
     spruce = [96, 124, 150, 172, 194]
+    grass_only = {"grass_block_top", "grass_block_side_overlay"}
     tex = {
         "grass_block_top": image(shade_field(101, grass, fine=0.60, coarse=0.30, light=0.10)),
         "grass_block_side_overlay": grass_side_overlay(102, grass, vanilla_fringe_mask(jar)),
@@ -122,6 +123,7 @@ def build(out: Path, jar: Path) -> dict[str, Image.Image]:
         "spruce_leaves": image(shade_field(203, spruce, fine=0.75, coarse=0.20, light=0.10), holes(203, 0.40)),
         "jungle_leaves": image(shade_field(204, leaf, fine=0.65, coarse=0.30, light=0.12), holes(204, 0.36)),
     }
+    tex = {k: v for k, v in tex.items() if k in grass_only}
     out.mkdir(parents=True, exist_ok=True)
     for name, im in tex.items():
         im.save(out / f"{name}.png", optimize=True)

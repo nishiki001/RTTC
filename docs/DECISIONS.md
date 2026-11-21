@@ -105,3 +105,18 @@
   the calibration: Programmer Art has no grass_block_top, and vanilla's (mean 147) made the reference green
   unreachable. Open points: birch/spruce leaf tints are fixed in vanilla code (#80A755/#619961); grass_block_side's
   dirt is still the modern texture.
+- 2026-11-21: Classic leaves use Programmer Art's own textures again; Anton prefers their slightly darker look under the
+  bright foliage tint. Our Alpha-style grass_block_top/side_overlay stay. scripts/art/alpha_foliage.py now writes
+  only the grass textures; its leaf generator is kept but unused.
+- 2026-11-21: Classic biome colour groups (Anton picked "option 1"), as grass / foliage:
+  - lime: plains, forest, birch forest, jungle, mushroom fields, ocean, deep ocean: #92E159 / #68FF4B
+  - cold (Beta-colormap style): windswept hills, taiga #69B083 / #4EBE6E; snowy taiga, snowy plains, frozen river,
+    frozen ocean #6FB09A / #55B48C
+  - dry: desert #C4D15C / #B4BE46; beach #B4D263 / #A6C84A (its own share of the blend)
+  - swamp: vanilla (swamp grass modifier, foliage #6A7039, murky water)
+- 2026-11-21: Rivers and beaches take their grass/foliage tint from neighbouring land. Client mixin
+  `mixin/client/ClientLevelTintMixin` wraps the biome lookup in `ClientLevel.calculateBlockTint` (grass and foliage
+  resolvers only). A sample in `#rttc:tint_borrows_neighbors` (river, frozen river) is swapped for the nearest
+  non-borrowing biome (8 directions, steps of 4 up to 48 blocks). For `#rttc:tint_blends_neighbors` (beach), 60% of
+  sample positions (fixed hash) do the same, so vanilla's biome blend averages to ~60% neighbour / 40% own. Water
+  colour is untouched. Verified with built test scenes (taiga|river|plains, plains|beach|desert).
