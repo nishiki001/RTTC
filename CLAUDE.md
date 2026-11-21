@@ -28,5 +28,7 @@ It's NOT a copy of them and NOT a realism/GregTech/TFC mod. The name RTTC is nev
   for bulk well-specified work (JSON, lang, datagen, repetitive registrations, tags).
 - Keep for yourself: architecture, mixins, world gen, energy/network systems, rendering hooks, and reviewing
   Gemini's output.
-- Don't re-read large files you already summarised. Don't open `build/`, `run/` or `.gradle/`.
+- Don't re-read large files you already summarised. Never dump build/run logs or other bulk output from
+  `build/`, `run/` or `.gradle/` into context. Reading the decompiled sources jar under
+  `build/moddev/artifacts/` (or `~/.gradle/caches/`) is fine: list it, then read only the classes you need.
 - Commit after each working step with a clear message.
